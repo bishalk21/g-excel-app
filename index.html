@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>Excel</title>
+  </head>
+  <body>
+    <!-- File actions -->
+    <div class="file-actions-container reuseable-container">
+      <div class="file-action">Home</div>
+      <div class="file-action">File</div>
+      <div class="file-action">Insert</div>
+      <div class="file-action">Layout</div>
+      <div class="file-action">Help</div>
+    </div>
+
+    <!-- Cell actions -->
+    <div class="cell-actions-container reuseable-container">
+      <span class="material-icons"> content_copy </span>
+      <span class="material-icons"> content_cut </span>
+      <span class="material-icons"> content_paste </span>
+
+      <select class="font-family">
+        <option value="monospace">Monospace</option>
+        <option value="sans-serif">Sans-Serif</option>
+        <option value="fantasy">Fantasy</option>
+        <option value="cursive">Cursive</option>
+      </select>
+      <select class="font-size">
+        <option value="14">14</option>
+        <option value="16">16</option>
+        <option value="18">18</option>
+        <option value="20">20</option>
+      </select>
+
+      <span class="material-icons"> format_bold </span>
+      <span class="material-icons"> format_italic </span>
+      <span class="material-icons"> format_underlined </span>
+      <span class="material-icons"> format_align_left </span>
+      <span class="material-icons"> format_align_center </span>
+      <span class="material-icons"> format_align_right </span>
+      <div class="color-format">
+        <span class="material-icons"> text_format </span>
+        <input type="color" class="font-color-format" />
+      </div>
+      <div class="color-format">
+        <span class="material-icons"> format_color_fill </span>
+        <input type="color" class="bg-color-format" />
+      </div>
+    </div>
+
+    <!-- Formula actions -->
+    <div class="formula-actions-container">
+      <input type="text" readonly class="address-bar" />
+      <!-- address bar is non editable, readonly -->
+      <img
+        class="formula-icon"
+        src="https://img.icons8.com/ios/50/formula-fx.png"
+        alt="formula-fx"
+      />
+      <input type="text" class="formula-bar" />
+    </div>
+
+    <!-- Grid container -->
+    <div class="grid-container">
+      <div class="top-left-dummy"></div>
+      <div class="address-col-container"></div>
+      <div class="cells-container">
+        <div class="address-row-container"></div>
+      </div>
+    </div>
+
+    <!-- Sheet actions -->
+    <div class="sheet-actions-container reuseable-container">
+      <div class="sheet-add-icon">
+        <span class="material-icons"> post_add </span>
+      </div>
+      <div class="sheet-folder-container">
+        <div class="sheet-folder">Sheet 1</div>
+      </div>
+    </div>
+
+    <script src="./grid.js"></script>
+    <script src="./cellFontAction.js"></script>
+  </body>
+</html>
