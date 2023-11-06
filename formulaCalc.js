@@ -51,8 +51,6 @@ let formulaBar = document.querySelector(".formula-bar");
 formulaBar.addEventListener("keydown", (e) => {
   let inputFormula = formulaBar.value;
   if (e.key === "Enter" && inputFormula) {
-    let evaluateValue = evaluateFormula(inputFormula);
-
     // IF CHANGE IN FORMULA, BREAK OLD PARENT CHILD RELATION, EVALUATE NEW FORMULA AND UPDATE WITH NEW PARENT CHILD RELATION
     let address = addressBar.value;
     let [cell, cellProperties] = getActiveCell(address);
@@ -62,12 +60,75 @@ formulaBar.addEventListener("keydown", (e) => {
     //   cellProperties.children = [];
     // }
 
+    addChildToGraphComponent(inputFormula, address);
+
+    // check for cyclic, then evaluate
+    let isCyclic = isGraphCyclic(graphComponentMatrix);
+    if (isCyclic === true) {
+      alert("Cyclic dependency detected");
+
+      // if cyclic is detected, break the parent child relation
+      removeChildFromGraphComponent(inputFormula, address);
+
+      return;
+    }
+
+    let evaluateValue = evaluateFormula(inputFormula);
+
     setCellUIAndCellProp(evaluateValue, inputFormula, address);
     addChildToParent(inputFormula);
     updateChildrenCell(address);
     // console.log(cellDatabase);
   }
 });
+
+// add child to graph component
+function addChildToGraphComponent(formula, childAddress) {
+  let [childRowId, childColumnId] =
+    decodeRowAndColumnIdFromAddress(childAddress);
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiValue = encodedFormula[i].charCodeAt(0);
+    if (asciiValue >= 65 && asciiValue <= 90) {
+      let [parentRowId, parentColumnId] = decodeRowAndColumnIdFromAddress(
+        encodedFormula[i]
+      );
+      // B1 --> A1 + 10
+      // RowId - 1(i), ColumnId - 0(j)
+      graphComponentMatrix[parentRowId][parentColumnId].push([
+        childRowId,
+        childColumnId,
+      ]);
+    }
+  }
+}
+
+// remove child from graph component
+function removeChildFromGraphComponent(formula, childAddress) {
+  let [childRowId, childColumnId] =
+    decodeRowAndColumnIdFromAddress(childAddress);
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiValue = encodedFormula[i].charCodeAt(0);
+    if (asciiValue >= 65 && asciiValue <= 90) {
+      let [parentRowId, parentColumnId] = decodeRowAndColumnIdFromAddress(
+        encodedFormula[i]
+      );
+
+      // pop()
+      // B1 --> A1 + 10
+      graphComponentMatrix[parentRowId][parentColumnId].pop();
+
+      //   graphComponentMatrix[parentRowId][parentColumnId].splice(
+      //     graphComponentMatrix[parentRowId][parentColumnId].indexOf([
+      //       childRowId,
+      //       childColumnId,
+      //     ]),
+      //     1
+      //   );
+    }
+  }
+}
 
 // update the children value in the database
 function updateChildrenCell(parentAddress) {
