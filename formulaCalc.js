@@ -65,7 +65,16 @@ formulaBar.addEventListener("keydown", (e) => {
     // check for cyclic, then evaluate
     let isCyclic = isGraphCyclic(graphComponentMatrix);
     if (isCyclic === true) {
-      alert("Cyclic dependency detected");
+      // alert("Cyclic dependency detected");
+
+      let response = confirm(
+        "You have a cyclic dependency. Do you want to trace the path?"
+      );
+      while (response === true) {
+        // keep on tracking color of cyclic path until user is satisfied
+        dfsCycleDetectionTracePath(graphComponentMatrix);
+        response = confirm("Do you want to trace the path?");
+      }
 
       // if cyclic is detected, break the parent child relation
       removeChildFromGraphComponent(inputFormula, address);
