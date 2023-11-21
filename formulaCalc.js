@@ -48,7 +48,7 @@ let formulaBar = document.querySelector(".formula-bar");
    */
 }
 
-formulaBar.addEventListener("keydown", (e) => {
+formulaBar.addEventListener("keydown", async (e) => {
   let inputFormula = formulaBar.value;
   if (e.key === "Enter" && inputFormula) {
     // IF CHANGE IN FORMULA, BREAK OLD PARENT CHILD RELATION, EVALUATE NEW FORMULA AND UPDATE WITH NEW PARENT CHILD RELATION
@@ -63,8 +63,8 @@ formulaBar.addEventListener("keydown", (e) => {
     addChildToGraphComponent(inputFormula, address);
 
     // check for cyclic, then evaluate
-    let isCyclic = isGraphCyclic(graphComponentMatrix);
-    if (isCyclic === true) {
+    let cycleResponse = isGraphCyclic(graphComponentMatrix);
+    if (cycleResponse === true) {
       // alert("Cyclic dependency detected");
 
       let response = confirm(
@@ -72,7 +72,7 @@ formulaBar.addEventListener("keydown", (e) => {
       );
       while (response === true) {
         // keep on tracking color of cyclic path until user is satisfied
-        dfsCycleDetectionTracePath(graphComponentMatrix);
+        await dfsCycleDetectionTracePath(graphComponentMatrix, cycleResponse);
         response = confirm("Do you want to trace the path?");
       }
 

@@ -40,11 +40,13 @@ function isGraphCyclic() {
           visited,
           dfsVisited
         );
-        if (response === true) return true;
+        // if (response === true) return true;
+        if (response === true) return [i, j];
       }
     }
   }
-  return false;
+  // return false;
+  return null;
 }
 
 // start -> visited: true, dfsVisited: true
