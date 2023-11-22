@@ -197,12 +197,17 @@
   width: 2vw;
 }
 
+.sheet-add-icon:hover {
+  cursor: pointer;
+}
+
 .sheet-folder-container {
   background-color: #ebebeb;
   height: 80%;
   width: calc(100vw - 2vw);
   display: flex;
   align-items: center;
+  overflow: auto;
 }
 
 .sheet-folder {
@@ -212,4 +217,14 @@
   color: #2a784d;
   background-color: #ffffff;
   text-decoration-thickness: 2px;
+  height: 80%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-content {
+  width: 5rem;
+  text-align: center;
 }

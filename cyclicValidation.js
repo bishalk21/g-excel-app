@@ -2,14 +2,15 @@
 
 // storage - 2D matrix
 let graphComponentMatrix = [];
+let collectedGraphComponentMatrix = [];
 
-for (let i = 0; i < rows; i++) {
-  let row = [];
-  for (let j = 0; j < columns; j++) {
-    row.push([]); // more than one child node (dependency)
-  }
-  graphComponentMatrix.push(row);
-}
+// for (let i = 0; i < rows; i++) {
+//   let row = [];
+//   for (let j = 0; j < columns; j++) {
+//     row.push([]); // more than one child node (dependency)
+//   }
+//   graphComponentMatrix.push(row);
+// }
 
 // cyclic detection True - Cyclic, False - Acyclic
 function isGraphCyclic() {
