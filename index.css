@@ -9,6 +9,11 @@
 }
 
 /* File actions */
+.selected-page-action {
+  background-color: #f1f2f6;
+  color: #307c52;
+}
+
 .file-actions-container {
   background-color: #307c52;
   display: flex;
@@ -17,8 +22,13 @@
 }
 
 .file-action {
-  margin: 0.5rem;
-  color: #d3e2d9;
+  width: 3.5rem;
+  height: 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* color: #d3e2d9; */
 }
 
 /* Cell actions */

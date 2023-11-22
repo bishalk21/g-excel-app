@@ -26,6 +26,8 @@ addSheetBtn.addEventListener("click", () => {
 
   sheetFolderContainer.appendChild(sheet);
 
+  sheet.scrollIntoView({ behavior: "smooth", block: "center" });
+
   sheetDbStorage();
   createGraphComponentMatrix();
   handleSheetActive(sheet);

@@ -6,6 +6,8 @@
    *   - copy
    *   - cut
    *   - paste
+   *
+   * open and save
    */
 }
 
