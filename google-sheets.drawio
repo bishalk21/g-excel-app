@@ -1305,7 +1305,7 @@
           <mxGeometry height="30" width="540" x="570" y="710" as="geometry" />
         </mxCell>
         <mxCell id="svkJbajMMQs6XotLUxO5-59" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Sheet Add, sheets container" vertex="1">
-          <mxGeometry height="40" width="510" x="600" y="1140" as="geometry" />
+          <mxGeometry height="40" width="540" x="570" y="1140" as="geometry" />
         </mxCell>
         <mxCell id="svkJbajMMQs6XotLUxO5-60" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;rotation=0;" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;🔍&lt;/span&gt;" vertex="1">
           <mxGeometry height="30" width="70" x="690" y="680" as="geometry" />

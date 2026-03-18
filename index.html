@@ -16,6 +16,7 @@
   </head>
   <body>
     <div class="app container">
+      <!-- Page Actions - File, Edit, View, etc. -->
       <div class="page-actions-container actions-container">
         <div class="page-action">Home</div>
         <div class="page-action">File</div>
@@ -23,6 +24,8 @@
         <div class="page-action">Layout</div>
         <div class="page-action">Help</div>
       </div>
+
+      <!-- Cell Actions - font, size, color, alignment -->
       <div class="cells-actions-container actions-container">
         <div class="cell-action">
           <span class="material-icons">content_cut</span>
@@ -36,10 +39,67 @@
         <div class="cell-action">
           <span class="material-icons">format_shapes</span>
         </div>
+
+        <select class="font-family-select font-select cell-action">
+          <option value="">Font</option>
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+          <option value="sans-serif">Sans Serif</option>
+        </select>
+
+        <select class="font-size-select font-select cell-action">
+          <option value="">Font Size</option>
+          <option value="8">8</option>
+          <option value="10">10</option>
+          <option value="12">12</option>
+          <option value="14">14</option>
+          <option value="16">16</option>
+          <option value="18">18</option>
+          <option value="20">20</option>
+        </select>
+
+        <div class="cell-action">
+          <span class="material-icons">format_color_fill</span>
+        </div>
+        <div class="cell-action">
+          <span class="material-icons">format_color_text</span>
+        </div>
+        <div class="cell-action">
+          <span class="material-icons">format_align_left</span>
+        </div>
+        <div class="cell-action">
+          <span class="material-icons">format_align_center</span>
+        </div>
+        <div class="cell-action">
+          <span class="material-icons">format_align_right</span>
+        </div>
       </div>
-      <div class="formula-bar-container actions-container">Formula Bar</div>
+
+      <!-- Address Bar + Formula Bar -->
+      <div class="formula-bar-container actions-container">
+        <input type="text" class="address-bar" placeholder="A1" readonly />
+        <div class="formula-bar">
+          <span class="material-symbols-outlined"> function </span>
+          <input
+            type="text"
+            placeholder="Enter formula or value"
+            class="formula-input"
+          />
+        </div>
+      </div>
       <div class="grid-container actions-container">Grid</div>
-      <div class="sheets-container actions-container">Sheets</div>
+
+      <!-- Sheets Container - Add sheets, switch between sheets -->
+      <div class="sheets-container actions-container">
+        <div class="add-sheet">
+          <span class="material-symbols-outlined"> assignment_add </span>
+        </div>
+        <div class="sheet-folder active">Sheet 1</div>
+        <div class="sheet-folder">Sheet 2</div>
+        <div class="sheet-folder">Sheet 3</div>
+      </div>
     </div>
     <script src="./script.js"></script>
   </body>
