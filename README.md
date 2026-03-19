@@ -11,6 +11,51 @@
   - heavy dom manipulation for rendering the spreadsheet grid and cells, with optimizations for performance and responsiveness
   - two-way data binding between the UI and the underlying data model, ensuring that changes in the UI are reflected in the data and vice versa
 
+  ```js
+  /** Key Learnings
+   * 1. createElement:
+   *    - Used to create a new HTML element dynamically in JavaScript.
+   *    - Syntax: document.createElement(tagName)
+   *    - Example: let div = document.createElement("div");
+   * 2. classList.add:
+   *    - Used to add one or more class names to an element's class list.
+   *    - Syntax: element.classList.add(className1, className2, ...)
+   *    - Example: div.classList.add("my-class");
+   * 3. setAttribute:
+   *    - Used to set the value of an attribute on an HTML element.
+   *    - Syntax: element.setAttribute(attributeName, attributeValue)
+   *    - Example: div.setAttribute("contenteditable", "true");
+   * 4. String.fromCharCode:
+   *    - Used to convert Unicode values to characters.
+   *    - Syntax: String.fromCharCode(num1, num2, ...)
+   *    - Example: String.fromCharCode(65) returns "A"
+   * 5. contenteditable:
+   *    - An HTML attribute that makes an element editable by the user.
+   *    - When set to "true", the content of the element can be edited directly in the browser.
+   *    - Example: <div contenteditable="true">This is editable</div>
+   * 6. DOM Manipulation:
+   *    - The process of dynamically changing the structure, style, or content of a web page using JavaScript.
+   *    - Common methods include createElement, appendChild, setAttribute, and classList.
+   *    - Example: document.body.appendChild(div) adds the created div to the body of the document.
+   * 7. Nested Loops for Grid Creation:
+   *    - Used to create a grid-like structure (e.g., rows and columns) by nesting one loop inside another.
+   *    - The outer loop typically iterates over rows, while the inner loop iterates over columns.
+   *    - Example: for (let i = 0; i < rows; i++) { for (let j = 0; j < columns; j++) { ... } }
+   * 8. Event Listeners:
+   *    - Used to execute a function when a specific event occurs on an element.
+   *    - Syntax: element.addEventListener(eventType, callbackFunction)
+   *    - Example: cell.addEventListener("click", () => { ... });
+   * 9. Template Literals:
+   *    - Used to embed expressions within string literals for easier string formatting.
+   *    - Syntax: `string text ${expression} string text`
+   *    - Example: `.cell[rid="${srcRow}"][cid="${srcColumn}"]` selects a cell with specific row and column attributes.
+   * 10. Promises and Async/Await:
+   *    - Used to handle asynchronous operations in JavaScript.
+   *    - A Promise represents a value that may be available now, later, or never.
+   *    - Async functions return a Promise, and the await keyword is used to wait for a Promise to resolve before proceeding.
+   */
+  ```
+
 Google Sheets is a web-based spreadsheet program that is part of the Google Drive office suite, along with Google Docs and Google Slides. It allows users to create, edit, and share spreadsheets online while collaborating with other users in real time.
 
 - Framework: React (Next.js for SSR (Server-Side Rendering) optimization)

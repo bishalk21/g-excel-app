@@ -22,6 +22,10 @@
 .page-actions-container {
   background-color: lightgreen;
   gap: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding-bottom: 0.25rem;
 }
 
 .page-action {
@@ -78,6 +82,7 @@
 
 .formula-input {
   width: calc(100vw - 3rem - 5rem - 1rem - 1rem);
+  max-width: 100%;
   padding: 0.25rem;
   outline: none;
   border-radius: 0.25rem;
@@ -112,4 +117,86 @@
 .grid-container {
   height: calc(100vh - 3rem - 3rem - 3rem);
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  overflow: scroll;
+}
+
+.cell-dummy {
+  height: 2rem;
+  width: 3rem;
+  background-color: rgb(0, 0, 0);
+  position: fixed;
+  z-index: 1000;
+  padding: 0.25rem;
+}
+
+.address-columns-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: sticky;
+  left: 0;
+  top: 2rem;
+  z-index: 100;
+  background-color: rgb(211, 211, 211);
+}
+
+.address-col {
+  height: 2rem;
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid lightslategray;
+  padding: 0.25rem;
+  background-color: rgba(211, 211, 211, 0.313);
+}
+
+.cells-container {
+  position: absolute;
+  top: 0;
+  left: 3rem;
+}
+
+.row-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.cell {
+  height: 2rem;
+  width: 5rem;
+  display: inline-block;
+  border: 1px solid lightgray;
+  padding: 0.25rem;
+}
+
+.address-rows-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 3rem;
+  background-color: rgb(211, 211, 211);
+}
+
+.address-row {
+  height: 2rem;
+  min-width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid lightslategray;
+  background-color: rgba(211, 211, 211, 0.313);
 }
