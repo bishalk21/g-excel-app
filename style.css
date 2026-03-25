@@ -45,6 +45,7 @@
 
 .cell-action {
   cursor: pointer;
+  position: relative;
 }
 
 .font-select {
@@ -52,6 +53,16 @@
   outline: none;
   border-radius: 0.25rem;
   border: none;
+}
+
+/* .cell-action input[type="color"] { */
+.color-picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /*  ------------ Address Bar + Formula Bar ----------- */

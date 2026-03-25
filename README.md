@@ -1,5 +1,7 @@
 # Google Sheets Clone
 
+Description: A web-based spreadsheet application built with HTML, CSS, and JavaScript, featuring cell editing, formatting options, formula support, and sheet management. The application allows users to create and manage spreadsheets with functionalities similar to Google Sheets, including support for formulas, cell formatting, and multiple sheets. The project also includes optimizations for handling cell dependencies and recalculations when cell values change, using a graph algorithm for cycle detection in directed graphs. The application is designed to be responsive and performant, with heavy DOM manipulation for rendering the spreadsheet grid and cells, and two-way data binding between the UI and the underlying data model.
+
 - Features:
   - Toolbar with formatting options (bold, italic, underline, font size, color, etc.)
   - Cell editing with support for formulas and functions
@@ -7,9 +9,16 @@
   - multiple sheets within a single spreadsheet
   - upload and download spreadsheets in CSV or Excel format
   - formula execution engine that supports basic arithmetic operations, cell references, and common functions (e.g., SUM, AVERAGE)
-  - graph algorithm (cycle detection in directed graphs) for handling cell dependencies and recalculations when cell values change
+  - graph algorithm (cycle detection in directed graphs) for handling cell dependencies and recalculations when cell values change (path tracing)
   - heavy dom manipulation for rendering the spreadsheet grid and cells, with optimizations for performance and responsiveness
+  - multiple sheets handling with synchronous storage and retrieval of sheet data, allowing users to switch between sheets seamlessly while maintaining the integrity of the data and formulas across different sheets
   - two-way data binding between the UI and the underlying data model, ensuring that changes in the UI are reflected in the data and vice versa
+    - when a user edits a cell, the change is immediately reflected in the underlying data model, and any dependent cells that reference the edited cell are automatically updated based on their formulas, ensuring that the spreadsheet remains consistent and up-to-date with user interactions. the ui is also updated in real-time to reflect changes in the data model, providing a seamless and responsive user experience when working with the spreadsheet.
+- cells storage: cells are stored in a 2D array or an object with cell identifiers as keys (e.g., A1, B2) and their corresponding values and formulas as values. This allows for efficient access and manipulation of cell data, as well as easy implementation of features like formula evaluation and cell dependencies.
+- cell is represented as an object with properties such as value (the current value of the cell), formula (the formula entered by the user, if any), and formatting options (e.g., bold, italic, font size). This structure allows for easy management of cell data and formatting, enabling features like formula evaluation and dynamic updates based on user interactions.
+- implement downloadable sheets to be reusable on uploads across devices
+- implement canvas based rendering to build sheets ui with optimizations for performance and responsiveness, especially when dealing with large spreadsheets. This approach allows for efficient rendering of the spreadsheet grid and cells, while minimizing DOM manipulation and improving overall user experience.
+- infinite scalability of sheets with virtualization concept with cells operation features (cut, copy, paste) and formula execution engine that supports basic arithmetic operations, cell references, and common functions (e.g., SUM, AVERAGE), while ensuring that the application remains performant and responsive even as the size of the spreadsheet grows significantly.
 
   ```js
   /** Key Learnings

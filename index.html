@@ -60,11 +60,23 @@
           <option value="20">20</option>
         </select>
 
+        <div class="bold cell-action">
+          <span class="material-icons">format_bold</span>
+        </div>
+        <div class="italic cell-action">
+          <span class="material-icons">format_italic</span>
+        </div>
+        <div class="underline cell-action">
+          <span class="material-icons">format_underlined</span>
+        </div>
+
         <div class="cell-action">
           <span class="material-icons">format_color_fill</span>
+          <input type="color" class="fill-color-picker color-picker" />
         </div>
         <div class="cell-action">
           <span class="material-icons">format_color_text</span>
+          <input type="color" class="text-color-picker color-picker" />
         </div>
         <div class="cell-action">
           <span class="material-icons">format_align_left</span>
@@ -109,6 +121,7 @@
         <div class="sheet-folder">Sheet 3</div>
       </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="./grid.js"></script>
+    <script src="./cellProperties.js"></script>
   </body>
 </html>
