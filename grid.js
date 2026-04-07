@@ -16,7 +16,7 @@ for (let i = 0; i < rows; i++) {
 for (let i = 0; i < columns; i++) {
   let addressRow = document.createElement("div");
   addressRow.classList.add("address-row");
-  addressRow.innerText = String.fromCharCode(65 + i);
+  addressRow.innerText = String.fromCharCode(65 + i); // 65 is the ASCII code for 'A'
   addressRowsContainer.appendChild(addressRow);
 }
 
@@ -29,6 +29,7 @@ for (let i = 0; i < rows; i++) {
     let cell = document.createElement("div");
     cell.classList.add("cell");
     cell.setAttribute("contenteditable", "true");
+    cell.setAttribute("spellcheck", "false");
     cell.setAttribute("rid", i);
     cell.setAttribute("cid", j);
     rowContainer.appendChild(cell);
@@ -53,3 +54,7 @@ function displayAddressOnClick(cell, rowId, colId) {
     addressBar.value = colAddress + rowAddress;
   });
 }
+
+// by default first cell should be selected and show in address bar
+let firstCell = document.querySelector(".cell");
+firstCell.click();
