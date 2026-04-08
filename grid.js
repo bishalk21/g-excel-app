@@ -33,6 +33,7 @@ for (let i = 0; i < rows; i++) {
     cell.setAttribute("rid", i);
     cell.setAttribute("cid", j);
     rowContainer.appendChild(cell);
+
     // on click of cell --> get the row id and column id and show in address bar
     // displayAddressOnClick(cell, i, j);
     cell.addEventListener("click", () => {

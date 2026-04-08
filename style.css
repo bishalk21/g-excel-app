@@ -189,6 +189,7 @@
   display: inline-block;
   border: 1px solid lightgray;
   padding: 0.25rem;
+  text-overflow: clip;
 }
 
 .address-rows-container {

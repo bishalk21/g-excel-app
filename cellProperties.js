@@ -56,15 +56,6 @@ let rightAlign = alignment[2];
 let addressBar = document.querySelector(".address-bar");
 let activeColor = "#d1d8e0";
 let inactiveColor = "transparent";
-bold.addEventListener("click", () => {
-  let address = addressBar.value;
-  let [cell, cellProp] = getActiveCell(address);
-  // modify the cell object
-  cellProp.bold = !cellProp.bold;
-  // reflect the change in cell's UI
-  cell.style.fontWeight = cellProp.bold ? "bold" : "normal";
-  bold.style.backgroundColor = cellProp.bold ? activeColor : inactiveColor;
-});
 
 // active cell access
 function getActiveCell(address) {
@@ -85,3 +76,75 @@ function decodeAddress(address) {
   let colId = Number(address.charCodeAt(0) - 65);
   return [rowId, colId];
 }
+
+bold.addEventListener("click", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.bold = !cellProp.bold;
+  // reflect the change in cell's UI
+  cell.style.fontWeight = cellProp.bold ? "bold" : "normal";
+  bold.style.backgroundColor = cellProp.bold ? activeColor : inactiveColor;
+});
+
+italic.addEventListener("click", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.italic = !cellProp.italic;
+  // reflect the change in cell's UI
+  cell.style.fontStyle = cellProp.italic ? "italic" : "normal";
+  italic.style.backgroundColor = cellProp.italic ? activeColor : inactiveColor;
+});
+
+underline.addEventListener("click", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.underline = !cellProp.underline;
+  // reflect the change in cell's UI
+  cell.style.textDecoration = cellProp.underline ? "underline" : "none";
+  underline.style.backgroundColor = cellProp.underline
+    ? activeColor
+    : inactiveColor;
+});
+
+fontSize.addEventListener("change", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.fontSize = fontSize.value;
+  // reflect the change in cell's UI
+  cell.style.fontSize = cellProp.fontSize + "px";
+  fontSize.value = cellProp.fontSize;
+});
+
+fontFamily.addEventListener("change", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.fontFamily = fontFamily.value;
+  // reflect the change in cell's UI
+  cell.style.fontFamily = cellProp.fontFamily;
+  fontFamily.value = cellProp.fontFamily;
+});
+
+fontColor.addEventListener("change", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.fontColor = fontColor.value;
+  // reflect the change in cell's UI
+  cell.style.color = cellProp.fontColor;
+  fontColor.value = cellProp.fontColor;
+});
+
+fillColor.addEventListener("change", () => {
+  let address = addressBar.value;
+  let [cell, cellProp] = getActiveCell(address);
+  // modify the cell object
+  cellProp.fillColor = fillColor.value;
+  // reflect the change in cell's UI
+  cell.style.backgroundColor = cellProp.fillColor;
+  fillColor.value = cellProp.fillColor;
+});
