@@ -148,3 +148,107 @@ fillColor.addEventListener("change", () => {
   cell.style.backgroundColor = cellProp.fillColor;
   fillColor.value = cellProp.fillColor;
 });
+
+/** alignment change
+ * - on click of alignment button
+ * --> get the active cell's row id and column id and
+ * --> then access the cell object from sheetsDB and
+ * --> modify the alignment property in that object and
+ * --> also reflect the change in the cell's UI by changing the text-align style of the cell
+ * --> also update the alignment button styles to show which alignment is currently active for the selected cell
+ *
+ * - ui change in both cell and alignment buttons
+ * --> for cell --> change the text-align style of the cell based on the selected alignment
+ * --> for alignment buttons --> change the background color of the selected alignment button to activeColor and reset the background color of other alignment buttons to inactiveColor
+ * --> for another cell when clicked
+ * ----> get the alignment property of that cell from sheetsDB and
+ * ----> update the background color of alignment buttons accordingly to reflect the current alignment of the newly selected cell
+ */
+alignment.forEach((alignElem) => {
+  console.log(alignElem);
+  alignElem.addEventListener("click", (e) => {
+    let address = addressBar.value;
+    let [cell, cellProp] = getActiveCell(address);
+    let alignValue = e.target.classList[0];
+    // let alignValue = alignElem.classList[0];
+    // modify the cell object - data change
+    cellProp.alignment = alignValue;
+    // ui change
+    cell.style.textAlign = cellProp.alignment;
+    // switch case for alignment buttons background color change
+    switch (alignValue) {
+      case "left":
+        leftAlign.style.backgroundColor = activeColor;
+        centerAlign.style.backgroundColor = inactiveColor;
+        rightAlign.style.backgroundColor = inactiveColor;
+        break;
+      case "center":
+        leftAlign.style.backgroundColor = inactiveColor;
+        centerAlign.style.backgroundColor = activeColor;
+        rightAlign.style.backgroundColor = inactiveColor;
+        break;
+      case "right":
+        leftAlign.style.backgroundColor = inactiveColor;
+        centerAlign.style.backgroundColor = inactiveColor;
+        rightAlign.style.backgroundColor = activeColor;
+        break;
+    }
+  });
+});
+
+// function to attach click event listener to each cell and
+// update the alignment buttons background color based on the selected cell's alignment property
+let allCells = document.querySelectorAll(".cell");
+for (let i = 0; i < allCells.length; i++) {
+  attachClickEventListenerToCells(allCells[i]);
+}
+function attachClickEventListenerToCells(cell) {
+  cell.addEventListener("click", () => {
+    let address = addressBar.value;
+    let [rid, cid] = decodeAddress(address);
+    let cellProp = sheetsDB[rid][cid];
+
+    // apply cell properties to alignment buttons
+    cell.style.fontWeight = cellProp.bold ? "bold" : "normal";
+    cell.style.fontStyle = cellProp.italic ? "italic" : "normal";
+    cell.style.textDecoration = cellProp.underline ? "underline" : "none";
+    cell.style.fontSize = cellProp.fontSize + "px";
+    cell.style.fontFamily = cellProp.fontFamily;
+    cell.style.color = cellProp.fontColor;
+    cell.style.backgroundColor = cellProp.fillColor;
+    cell.style.textAlign = cellProp.alignment;
+
+    // apply properties to property bar UI
+    fontSize.value = cellProp.fontSize;
+    fontFamily.value = cellProp.fontFamily;
+    fontColor.value = cellProp.fontColor;
+    fillColor.value = cellProp.fillColor;
+    bold.style.backgroundColor = cellProp.bold ? activeColor : inactiveColor;
+    italic.style.backgroundColor = cellProp.italic
+      ? activeColor
+      : inactiveColor;
+    underline.style.backgroundColor = cellProp.underline
+      ? activeColor
+      : inactiveColor;
+
+    // (apply UI prop
+    // alignment buttons background color change based on the selected cell's alignment property
+    switch (cellProp.alignment) {
+      case "left":
+        leftAlign.style.backgroundColor = activeColor;
+        centerAlign.style.backgroundColor = inactiveColor;
+        rightAlign.style.backgroundColor = inactiveColor;
+        break;
+      case "center":
+        leftAlign.style.backgroundColor = inactiveColor;
+        centerAlign.style.backgroundColor = activeColor;
+        rightAlign.style.backgroundColor = inactiveColor;
+        break;
+      case "right":
+        leftAlign.style.backgroundColor = inactiveColor;
+        centerAlign.style.backgroundColor = inactiveColor;
+        rightAlign.style.backgroundColor = activeColor;
+        break;
+    }
+  });
+}
