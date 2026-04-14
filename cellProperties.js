@@ -165,7 +165,7 @@ fillColor.addEventListener("change", () => {
  * ----> update the background color of alignment buttons accordingly to reflect the current alignment of the newly selected cell
  */
 alignment.forEach((alignElem) => {
-  console.log(alignElem);
+  // console.log(alignElem);
   alignElem.addEventListener("click", (e) => {
     let address = addressBar.value;
     let [cell, cellProp] = getActiveCell(address);

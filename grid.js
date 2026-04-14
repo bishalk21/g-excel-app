@@ -16,7 +16,7 @@ for (let i = 0; i < rows; i++) {
 for (let i = 0; i < columns; i++) {
   let addressRow = document.createElement("div");
   addressRow.classList.add("address-row");
-  addressRow.innerText = String.fromCharCode(65 + i); // 65 is the ASCII code for 'A'
+  addressRow.innerText = String.fromCharCode(65 + i); // 65 is the ASCII (American Standard Code for Information Interchange) code for 'A'
   addressRowsContainer.appendChild(addressRow);
 }
 
