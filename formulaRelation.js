@@ -76,8 +76,22 @@ function evaluateFormula(formula) {
   // then add 2 to it to get the evaluated value of the formula
   let encodedFormula = formula.split(" ");
   // In a real implementation, you would decode the formula here
-  for (let i = 0; i < encodedFormula.length; i++) {}
-  return eval(formula);
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiVal = encodedFormula[i].charCodeAt(0);
+    // check if the token is a cell reference (e.g., A1, B2, etc.)
+    if (asciiVal >= 65 && asciiVal <= 90) {
+      // let colId = asciiVal - 65; // Convert 'A' to 0, 'B' to 1, etc.
+      // let rowId = parseInt(encodedFormula[i].substring(1)) - 1; // Get the row number and convert to 0-based index
+      // let cellValue = sheetsDB[rowId][colId].value;
+      let [cell, cellProp] = getActiveCell(encodedFormula[i]);
+      // let cellValue = cellProp.value;
+      // replace the cell reference in the formula with its actual value
+      // formula = formula.replace(encodedFormula[i], cellValue);
+      encodedFormula[i] = cellProp.value;
+    }
+  }
+  let decodedFormula = encodedFormula.join(" ");
+  return eval(decodedFormula); // Evaluate the decoded formula and return the result
 }
 
 /**
