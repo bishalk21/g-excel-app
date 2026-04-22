@@ -62,9 +62,65 @@ formulaBar.addEventListener("keydown", (e) => {
     let evaluatedValue = evaluateFormula(inputFormula);
     // now we need to update the value of the cell in the sheetsDB,
     // and also update the value of the cells that are dependent on it
+
+    // if change in formula, then we need to remove the child from the parent, because the dependency will change
+    let address = addressBar.value;
+    let [activeCell, cellProp] = getActiveCell(address);
+    if (inputFormula !== cellProp.formula) {
+      removeChildFromParent(cellProp.formula);
+    }
+
     setCellUIAndCellProp(evaluatedValue, inputFormula);
+    addChildToParent(inputFormula);
+    console.log(sheetsDB);
   }
 });
+
+/** Add Child to parent
+ * when we enter a formula in the formula bar and press enter,
+ * we need to evaluate the formula and update the value of the cell in the sheetsDB,
+ * and also update the value of the cells that are dependent on it
+ * - for example, if we enter the formula = A1 + 2 in cell B1,
+ *   then the value of cell B1 will depend on the value of cell A1,
+ *   so we need to add B1 as a child to A1, so that whenever the value of A1 changes, we can update the value of B1 as well
+ * - we can get the cell reference from the formula and then get the cell properties from the sheetsDB,
+ *   and then we can add the parent cell address to the children array of the cell properties
+ */
+function addChildToParent(formula) {
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiVal = encodedFormula[i].charCodeAt(0);
+    // check if the token is a cell reference (e.g., A1, B2, etc.)
+    if (asciiVal >= 65 && asciiVal <= 90) {
+      let [parentCell, parentCellProp] = getActiveCell(encodedFormula[i]);
+      let childAddress = addressBar.value;
+      parentCellProp.children.push(childAddress);
+    }
+  }
+}
+
+/** Remove Child from Parent
+ * when a cell's value is updated, we need to remove it from the children array of its parent cells
+ * for example, if we have a formula = A1 + 2 in cell B1, and then we change the formula to = A2 + 2 in cell B1,
+ * then we need to remove B1 from the children array of A1 and add B1 to the children array of A2
+ * - we can get the cell reference from the old formula and then get the cell properties from the sheetsDB,
+ *   and then we can remove the parent cell address from the children array of the cell properties
+ */
+function removeChildFromParent(oldFormula) {
+  let encodedFormula = oldFormula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiVal = encodedFormula[i].charCodeAt(0);
+    // check if the token is a cell reference (e.g., A1, B2, etc.)
+    if (asciiVal >= 65 && asciiVal <= 90) {
+      let [parentCell, parentCellProp] = getActiveCell(encodedFormula[i]);
+      let childAddress = addressBar.value;
+      let childIndex = parentCellProp.children.indexOf(childAddress);
+      if (childIndex !== -1) {
+        parentCellProp.children.splice(childIndex, 1);
+      }
+    }
+  }
+}
 
 /**
  * evaluate the formula and return the evaluated value
