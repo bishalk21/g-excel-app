@@ -43,8 +43,17 @@ for (let i = 0; i < rows; i++) {
       let address = addressBar.value;
       let [activeCell, cellProp] = getActiveCell(address);
       let enteredData = activeCell.innerText; // UI change
+
+      if (enteredData === cellProp.value) {
+        return; // No change in value, so we can return early
+      }
+
       cellProp.value = enteredData; // data change
       //   console.log(cellProp);
+      removeChildFromParent(cellProp.formula);
+      cellProp.formula = "";
+      // when the value of the cell changes, we need to update the value of the cells that are dependent on it
+      updateChildrenCells(address);
     });
   }
 }
@@ -70,9 +79,10 @@ formulaBar.addEventListener("keydown", (e) => {
       removeChildFromParent(cellProp.formula);
     }
 
-    setCellUIAndCellProp(evaluatedValue, inputFormula);
+    setCellUIAndCellProp(evaluatedValue, inputFormula, address);
     addChildToParent(inputFormula);
-    console.log(sheetsDB);
+    // console.log(sheetsDB);
+    updateChildrenCells(address);
   }
 });
 
@@ -122,6 +132,27 @@ function removeChildFromParent(oldFormula) {
   }
 }
 
+/** Update children of cell
+ * when a cell's value is updated, we need to update the value of the cells that are dependent on it
+ * for example, if we have a formula = A1 + 2 in cell B1, and then we change the value of cell A1,
+ * then we need to update the value of cell B1 as well, because the value of cell B1 depends on the value of cell A1
+ * - we can get the children array from the cell properties of the updated cell,
+ *   and then we can loop through the children array and update the value of each child cell by evaluating its formula again
+ */
+function updateChildrenCells(parentAddress) {
+  let [parentCell, parentCellProp] = getActiveCell(parentAddress);
+  let children = parentCellProp.children;
+  for (let i = 0; i < children.length; i++) {
+    // Update each child cell by evaluating its formula
+    let childAddress = children[i];
+    let [childCell, childCellProp] = getActiveCell(childAddress);
+    let evaluatedValue = evaluateFormula(childCellProp.formula);
+    setCellUIAndCellProp(evaluatedValue, childCellProp.formula, childAddress);
+    // Recursively update the children of the child cell
+    updateChildrenCells(childAddress);
+  }
+}
+
 /**
  * evaluate the formula and return the evaluated value
  */
@@ -154,8 +185,8 @@ function evaluateFormula(formula) {
  * update the value of the cell in the sheetsDB,
  * and also update the value of the cells that are dependent on it
  */
-function setCellUIAndCellProp(evaluatedValue, formula) {
-  let address = addressBar.value;
+function setCellUIAndCellProp(evaluatedValue, formula, address) {
+  // let address = addressBar.value;
   let [activeCell, cellProp] = getActiveCell(address);
   activeCell.innerText = evaluatedValue; // UI change
   // data change

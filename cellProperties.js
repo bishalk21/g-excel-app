@@ -250,5 +250,9 @@ function attachClickEventListenerToCells(cell) {
         rightAlign.style.backgroundColor = activeColor;
         break;
     }
+
+    let formulaBar = document.querySelector(".formula-input");
+    formulaBar.value = cellProp.formula;
+    cell.innerText = cellProp.value;
   });
 }
