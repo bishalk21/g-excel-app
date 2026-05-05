@@ -79,6 +79,18 @@ formulaBar.addEventListener("keydown", (e) => {
       removeChildFromParent(cellProp.formula);
     }
 
+    addChildToGraphComponentMatrix(inputFormula, address);
+    // check for cycle in the graph component matrix
+    let isCyclic = isGraphCyclic(graphComponentMatrix);
+    if (isCyclic) {
+      alert(
+        "Your formula has a cyclic dependency. Please change the formula to remove the cycle.",
+      );
+      // remove the child from the graph component matrix
+      removeChildFromGraphComponentMatrix(inputFormula, address);
+      return;
+    }
+
     setCellUIAndCellProp(evaluatedValue, inputFormula, address);
     addChildToParent(inputFormula);
     // console.log(sheetsDB);
@@ -150,6 +162,47 @@ function updateChildrenCells(parentAddress) {
     setCellUIAndCellProp(evaluatedValue, childCellProp.formula, childAddress);
     // Recursively update the children of the child cell
     updateChildrenCells(childAddress);
+  }
+}
+
+/** Add child to graph component matrix
+ * This function adds a child cell to the list of children for a given parent cell in the graph component matrix
+ */
+function addChildToGraphComponentMatrix(formula, childAddress) {
+  let [rowID, colID] = decodeAddress(childAddress);
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiVal = encodedFormula[i].charCodeAt(0);
+    // check if the token is a cell reference (e.g., A1, B2, etc.)
+    if (asciiVal >= 65 && asciiVal <= 90) {
+      // let [parentCell, parentCellProp] = getActiveCell(encodedFormula[i]);
+      // parentCellProp.children.push(childAddress);
+      let [parentRowID, parentColID] = decodeAddress(encodedFormula[i]);
+      graphComponentMatrix[parentRowID][parentColID].push([rowID, colID]);
+    }
+  }
+}
+
+/** Remove child from graph component matrix
+ * This function removes a child cell from the list of children for a given parent cell in the graph component matrix
+ */
+function removeChildFromGraphComponentMatrix(formula, childAddress) {
+  let [rowID, colID] = decodeAddress(childAddress);
+  let encodedFormula = formula.split(" ");
+  for (let i = 0; i < encodedFormula.length; i++) {
+    let asciiVal = encodedFormula[i].charCodeAt(0);
+    // check if the token is a cell reference (e.g., A1, B2, etc.)
+    if (asciiVal >= 65 && asciiVal <= 90) {
+      let [parentRowID, parentColID] = decodeAddress(encodedFormula[i]);
+      // let children = graphComponentMatrix[parentRowID][parentColID];
+      // for (let j = 0; j < children.length; j++) {
+      //   if (children[j][0] === rowID && children[j][1] === colID) {
+      //     children.splice(j, 1);
+      //     break;
+      //   }
+      // }
+      graphComponentMatrix[parentRowID][parentColID].pop();
+    }
   }
 }
 

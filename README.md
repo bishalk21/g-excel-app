@@ -19,6 +19,19 @@ Description: A web-based spreadsheet application built with HTML, CSS, and JavaS
 - implement downloadable sheets to be reusable on uploads across devices
 - implement canvas based rendering to build sheets ui with optimizations for performance and responsiveness, especially when dealing with large spreadsheets. This approach allows for efficient rendering of the spreadsheet grid and cells, while minimizing DOM manipulation and improving overall user experience.
 - infinite scalability of sheets with virtualization concept with cells operation features (cut, copy, paste) and formula execution engine that supports basic arithmetic operations, cell references, and common functions (e.g., SUM, AVERAGE), while ensuring that the application remains performant and responsive even as the size of the spreadsheet grows significantly.
+- Graph Relation means that we can represent the dependencies between cells in a spreadsheet as a directed graph, where each cell is a node and there is a directed edge from cell A to cell B if cell B's value depends on cell A (e.g., through a formula). This allows us to manage and update cell values efficiently, especially when dealing with complex formulas and dependencies. For example, if we have the following formulas:
+  - A1 = 10,
+  - A2 = 20,
+  - B1 = A1 + A2,
+  - A3 = B1 \* 2
+    In this case, we can represent the dependencies as a directed graph:
+    A1 → B1 → A3
+    A2 → B1 → A3
+    When the value of A1 or A2 changes, we can easily identify that B1 and A3 need to be recalculated based on their dependencies in the graph. This allows us to efficiently update the values of dependent cells without having to recalculate the entire spreadsheet, improving performance and responsiveness.
+- cycle detection in directed graphs for handling cell dependencies and recalculations when cell values change, using a graph algorithm to identify and manage circular references in formulas, ensuring that the application can handle complex dependencies between cells without crashing or producing incorrect results.
+  - B1 = A1 + A2
+  - A1 = B1 + 10
+    here we have a circular reference between A1 and B1, which can lead to infinite loops during formula evaluation. To handle this, we can use a graph algorithm to detect cycles in the dependency graph of cells, allowing us to identify and manage circular references effectively, preventing crashes and ensuring accurate results in the spreadsheet application.
 
   ```js
   /** Key Learnings
