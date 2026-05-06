@@ -83,9 +83,15 @@ formulaBar.addEventListener("keydown", (e) => {
     // check for cycle in the graph component matrix
     let isCyclic = isGraphCyclic(graphComponentMatrix);
     if (isCyclic) {
-      alert(
-        "Your formula has a cyclic dependency. Please change the formula to remove the cycle.",
+      // alert(
+      //   "Your formula has a cyclic dependency. Please change the formula to remove the cycle.",
+      // );
+      let res = confirm(
+        "Your formula has a cyclic dependency. Do you want to trace your path?",
       );
+      while (res) {
+        // keep on tracking color until user is satisfied
+      }
       // remove the child from the graph component matrix
       removeChildFromGraphComponentMatrix(inputFormula, address);
       return;
