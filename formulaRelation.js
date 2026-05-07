@@ -91,6 +91,10 @@ formulaBar.addEventListener("keydown", (e) => {
       );
       while (res) {
         // keep on tracking color until user is satisfied
+        isGraphCyclicTracePath(graphComponentMatrix, isCyclic);
+        res = confirm(
+          "Your formula has a cyclic dependency. Do you want to trace your path again?",
+        );
       }
       // remove the child from the graph component matrix
       removeChildFromGraphComponentMatrix(inputFormula, address);

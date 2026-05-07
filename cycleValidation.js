@@ -43,12 +43,16 @@ function isGraphCyclic(graphComponentMatrix) {
         if (
           dfsCycleDetection(graphComponentMatrix, visited, dfsVisited, i, j)
         ) {
-          return true;
+          //   return true;
+
+          // For cycle path tracing, we will return false here and handle the cycle detection in the dfsCycleDetectionTracePath function
+          return [i, j]; // Return the starting point of the cycle for tracing
         }
       }
     }
   }
-  return false;
+  //   return false;
+  return null; // Return null if no cycle is detected, otherwise return the starting point of the cycle
 }
 
 function dfsCycleDetection(
