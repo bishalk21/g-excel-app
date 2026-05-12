@@ -65,7 +65,7 @@ let formulaBar = document.querySelector(".formula-input");
  * when the user presses the Enter key, we need to evaluate the formula and update the value of the cell in the sheetsDB,
  * and also update the value of the cells that are dependent on it
  */
-formulaBar.addEventListener("keydown", (e) => {
+formulaBar.addEventListener("keydown", async (e) => {
   let inputFormula = formulaBar.value;
   if (e.key === "Enter" && inputFormula) {
     let evaluatedValue = evaluateFormula(inputFormula);
@@ -81,18 +81,23 @@ formulaBar.addEventListener("keydown", (e) => {
 
     addChildToGraphComponentMatrix(inputFormula, address);
     // check for cycle in the graph component matrix
-    let isCyclic = isGraphCyclic(graphComponentMatrix);
-    if (isCyclic) {
+    let isCyclicResponse = isGraphCyclic(graphComponentMatrix);
+    if (isCyclicResponse) {
       // alert(
       //   "Your formula has a cyclic dependency. Please change the formula to remove the cycle.",
       // );
-      let res = confirm(
+      console.log(graphComponentMatrix);
+      console.log(
+        "Cycle detected in the graph component matrix",
+        isCyclicResponse,
+      );
+      let response = confirm(
         "Your formula has a cyclic dependency. Do you want to trace your path?",
       );
-      while (res) {
+      while (response === true) {
         // keep on tracking color until user is satisfied
-        isGraphCyclicTracePath(graphComponentMatrix, isCyclic);
-        res = confirm(
+        await isGraphCyclicTracePath(graphComponentMatrix, isCyclicResponse);
+        response = confirm(
           "Your formula has a cyclic dependency. Do you want to trace your path again?",
         );
       }

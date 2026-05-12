@@ -40,14 +40,23 @@ function isGraphCyclic(graphComponentMatrix) {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {
       if (!visited[i][j]) {
-        if (
-          dfsCycleDetection(graphComponentMatrix, visited, dfsVisited, i, j)
-        ) {
-          //   return true;
+        // if (
+        //   dfsCycleDetection(graphComponentMatrix, visited, dfsVisited, i, j)
+        // ) {
+        //   return true;
 
-          // For cycle path tracing, we will return false here and handle the cycle detection in the dfsCycleDetectionTracePath function
+        // For cycle path tracing, we will return false here and handle the cycle detection in the dfsCycleDetectionTracePath function
+        let response = dfsCycleDetection(
+          graphComponentMatrix,
+          visited,
+          dfsVisited,
+          i,
+          j,
+        );
+        if (response === true) {
           return [i, j]; // Return the starting point of the cycle for tracing
         }
+        // }
       }
     }
   }
@@ -69,16 +78,26 @@ function dfsCycleDetection(
   for (let i = 0; i < children.length; i++) {
     let [childRow, childCol] = children[i];
     if (!visited[childRow][childCol]) {
-      if (
-        dfsCycleDetection(
-          graphComponentMatrix,
-          visited,
-          dfsVisited,
-          childRow,
-          childCol,
-        )
-      ) {
-        return true;
+      //   if (
+      //     dfsCycleDetection(
+      //       graphComponentMatrix,
+      //       visited,
+      //       dfsVisited,
+      //       childRow,
+      //       childCol,
+      //     )
+      //   ) {
+      //     return true;
+      //   }
+      let response = dfsCycleDetection(
+        graphComponentMatrix,
+        visited,
+        dfsVisited,
+        childRow,
+        childCol,
+      );
+      if (response) {
+        return true; // Return true if a cycle is detected in the recursive call
       }
     } else if (dfsVisited[childRow][childCol]) {
       return true;
