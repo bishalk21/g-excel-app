@@ -5,6 +5,12 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif, system-ui;
 }
 
+body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 186, 198, 0.42) transparent;
+  xcrollbar-gutter: stable; /* Ensure space for scrollbar to prevent layout shifts */
+}
+
 .container {
   width: 100%;
   height: 100vh;
@@ -106,9 +112,16 @@
   gap: 1rem;
 }
 
-.sheet-folder {
+.sheet-folder-container {
+  display: flex;
+  gap: 1rem;
+  overflow: auto;
+}
+
+.sheet-folder .sheet-content {
   display: flex;
   align-items: flex-end;
+  width: max-content;
   height: 1.5rem;
   background-color: lightgray;
   padding: 0 0.5rem;
@@ -120,7 +133,21 @@
   font-weight: bold;
 }
 
-.sheet-folder.active {
+.add-sheet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: lightgray;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sheet-content .active {
+  width: 100%;
+  height: 100%;
+  padding: 0 0.5rem;
   background-color: lightgreen;
 }
 

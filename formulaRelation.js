@@ -86,11 +86,6 @@ formulaBar.addEventListener("keydown", async (e) => {
       // alert(
       //   "Your formula has a cyclic dependency. Please change the formula to remove the cycle.",
       // );
-      console.log(graphComponentMatrix);
-      console.log(
-        "Cycle detected in the graph component matrix",
-        isCyclicResponse,
-      );
       let response = confirm(
         "Your formula has a cyclic dependency. Do you want to trace your path?",
       );
