@@ -1,40 +1,139 @@
-/** Multiple Sheets Management in Google Sheets
- * In a spreadsheet application like Google Sheets,
- * managing multiple sheets involves handling the storage and retrieval of data across different sheets
- * while ensuring a seamless user experience. This includes implementing features such as
- * sheet navigation, data synchronization, and efficient data management to allow users to easily
- * switch between sheets and access their data without any issues.
- * Key learnings in this area include understanding
- * how to structure the data for multiple sheets,
- * implementing efficient algorithms for data retrieval and storage,
- * and ensuring that the user interface is intuitive and responsive when navigating between sheets.
- *
- * Features:
- * - Sheet Creation and Deletion: Allow users to create new sheets and delete existing ones as needed.
- * - Sheet Navigation: Allow users to easily switch between different sheets in the application.
- * - Data Synchronization: Ensure that changes made in one sheet are reflected in other sheets if necessary, maintaining data consistency across the application.
- * - Efficient Data Management: Implement efficient algorithms for storing and retrieving data across multiple sheets to ensure optimal performance and responsiveness.
- */
+let activeSheetColor  ="#ced6e0";
+let sheetsFolderCont = document.querySelector(".sheets-folder-cont");
+let addSheetBtn = document.querySelector(".sheet-add-icon");
 
-// 1. Sheet Creation and Deletion
-let addSheetBtn = document.querySelector(".add-sheet");
-addSheetBtn.addEventListener("click", () => {
-  createNewSheet();
-});
-function createNewSheet() {
-  let newSheet = document.createElement("div");
-  //   newSheet.classList.add("sheet");
-  newSheet.setAttribute("class", "sheet-folder");
+addSheetBtn.addEventListener("click", (e) => {
+    let sheet = document.createElement("div");
+    sheet.setAttribute("class", "sheet-folder");
 
-  let allSheetFolders = document.querySelectorAll(".sheet-folder");
-  // Assign a unique sheet ID based on the current number of sheets
-  newSheet.setAttribute("id", allSheetFolders.length);
+    let allSheetFolders = document.querySelectorAll(".sheet-folder");
+    sheet.setAttribute("id", allSheetFolders.length);
 
-  let sheetContent = document.createElement("div");
-  sheetContent.classList.add("sheet-content");
-  sheetContent.innerText = `Sheet ${allSheetFolders.length + 1}`; // Sheet names will be Sheet 1, Sheet 2, etc.
+    sheet.innerHTML = `
+        <div class="sheet-content">Sheet ${allSheetFolders.length + 1}</div>
+    `;
 
-  newSheet.appendChild(sheetContent);
-  let sheetFolderContainer = document.querySelector(".sheet-folder-container");
-  sheetFolderContainer.appendChild(newSheet);
+    sheetsFolderCont.appendChild(sheet);
+    sheet.scrollIntoView();
+
+    // DB
+    createSheetDB();
+    createGraphComponentMatrix();
+    handleSheetActiveness(sheet);
+    handleSheetRemoval(sheet);
+    sheet.click();
+})
+
+function handleSheetRemoval(sheet) {
+    sheet.addEventListener("mousedown", (e) => {
+        // Right click
+        if (e.button !== 2) return;
+
+        let allSheetFolders = document.querySelectorAll(".sheet-folder");
+        if (allSheetFolders.length === 1) {
+            alert("You need to have atleast one sheet!!");
+            return;
+        }
+
+        let response = confirm("Your sheet will be removed permanently, Are you sure?");
+        if (response === false) return;
+
+        let sheetIdx = Number(sheet.getAttribute("id"));
+        // DB
+        collectedSheetDB.splice(sheetIdx, 1);
+        collectedGraphComponent.splice(sheetIdx, 1);
+        // UI
+        handleSheetUIRemoval(sheet)
+
+        // By default DB to sheet 1 (active)
+        sheetDB = collectedSheetDB[0];
+        graphComponentMatrix = collectedGraphComponent[0];
+        handleSheetProperties();
+    })
+}
+
+function handleSheetUIRemoval(sheet) {
+    sheet.remove();
+    let allSheetFolders = document.querySelectorAll(".sheet-folder");
+    for (let i = 0;i < allSheetFolders.length;i++) {
+        allSheetFolders[i].setAttribute("id", i);
+        let sheetContent = allSheetFolders[i].querySelector(".sheet-content");
+        sheetContent.innerText = `Sheet ${i+1}`;
+        allSheetFolders[i].style.backgroundColor = "transparent";
+    }
+
+    allSheetFolders[0].style.backgroundColor = activeSheetColor;
+}
+
+function handleSheetDB(sheetIdx) {
+    sheetDB = collectedSheetDB[sheetIdx];
+    graphComponentMatrix = collectedGraphComponent[sheetIdx];
+}
+
+function handleSheetProperties() {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
+            cell.click();
+        }
+    }
+    // By default click on first cell via DOM
+    let firstCell = document.querySelector(".cell");
+    firstCell.click();
+}
+
+function handleSheetUI(sheet) {
+    let allSheetFolders = document.querySelectorAll(".sheet-folder");
+    for (let i = 0; i < allSheetFolders.length; i++) {
+        allSheetFolders[i].style.backgroundColor = "transparent";
+    }
+    sheet.style.backgroundColor = activeSheetColor;
+}
+
+function handleSheetActiveness(sheet) {
+    sheet.addEventListener("click", (e) => {
+        let sheetIdx = Number(sheet.getAttribute("id"));
+        handleSheetDB(sheetIdx);
+        handleSheetProperties();
+        handleSheetUI(sheet);
+        console.log(sheetDB);
+    })
+}
+
+function createSheetDB() {
+    let sheetDB = [];
+    for (let i = 0; i < rows; i++) {
+        let sheetRow = [];
+        for (let j = 0; j < cols; j++) {
+            let cellProp = {
+                bold: false,
+                italic: false,
+                underline: false,
+                alignment: "left",
+                fontFamily: "monospace",
+                fontSize: "14",
+                fontColor: "#000000",
+                BGcolor: "#000000",  // Just for indication purpose,
+                value: "",
+                formula: "",
+                children: [],
+            }
+            sheetRow.push(cellProp);
+        }
+        sheetDB.push(sheetRow);
+    }
+    collectedSheetDB.push(sheetDB);
+}
+
+function createGraphComponentMatrix() {
+    let graphComponentMatrix = [];
+    for (let i = 0; i < rows; i++) {
+        let row = [];
+        for (let j = 0; j < cols; j++) {
+            // Why array -> More than 1 child relation(dependency)
+            row.push([]);
+        }
+        graphComponentMatrix.push(row);
+    }
+    collectedGraphComponent.push(graphComponentMatrix);
 }

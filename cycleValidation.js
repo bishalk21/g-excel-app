@@ -1,109 +1,69 @@
-// Storage - 2D array to store the children of each cell
-// graphComponentMatrix[i][j] will store the list of children (dependent cells) of the cell at row i and column j
+// Storage -> 2D array (Basic needed)
+let collectedGraphComponent = [];
 let graphComponentMatrix = [];
 
-for (let i = 0; i < rows; i++) {
-  let row = [];
-  for (let j = 0; j < columns; j++) {
-    // Each cell will have a list of its children (dependent cells)
-    row.push([]);
-  }
-  graphComponentMatrix.push(row);
-}
+// for (let i = 0; i < rows; i++) {
+//     let row = [];
+//     for (let j = 0; j < cols; j++) {
+//         // Why array -> More than 1 child relation(dependency)
+//         row.push([]);
+//     }
+//     graphComponentMatrix.push(row);
+// }
 
-/** Cycle Detection in Directed Graphs
- * In the context of a spreadsheet application, we can represent the dependencies between cells as a directed graph,
- * where each cell is a node and there is a directed edge from cell A to cell B if cell A depends on cell B (i.e., if cell A's formula references cell B).
- * A cycle in this graph would indicate a circular dependency, which is not allowed in spreadsheets because it would lead to infinite loops in calculations.
- * For example, if cell A1 depends on cell B1, and cell B1 depends on cell A1, we have a cycle: A1 -> B1 -> A1.
- * To detect cycles in this directed graph, we can use a depth-first search (DFS) approach.
- * 1. We will maintain a visited set to keep track of the nodes we have already visited during our DFS traversal.
- * 2. We will also maintain a recursion stack (or path set) to keep track of the nodes currently being explored in the current path of the DFS.
- * 3. If we encounter a neighbor that has already been visited and is in the recursion stack, it means we have found a cycle.
- * 4. If we complete the DFS without finding any cycles, then the graph is acyclic.
- * The time complexity of this algorithm is O(V + E), where V is the number of vertices (cells) and E is the number of edges (dependencies),
- * because we need to visit each vertex and edge once during the DFS traversal. The space complexity is O(V + E) for the adjacency list and the visited and recursion stack sets.
- */
-function isGraphCyclic(graphComponentMatrix) {
-  let visited = [];
-  let dfsVisited = [];
-  for (let i = 0; i < rows; i++) {
-    let visitedRow = [];
-    let dfsVisitedRow = [];
-    for (let j = 0; j < columns; j++) {
-      visitedRow.push(false);
-      dfsVisitedRow.push(false);
-    }
-    visited.push(visitedRow);
-    dfsVisited.push(dfsVisitedRow);
-  }
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < columns; j++) {
-      if (!visited[i][j]) {
-        // if (
-        //   dfsCycleDetection(graphComponentMatrix, visited, dfsVisited, i, j)
-        // ) {
-        //   return true;
+// True -> cyclic, False -> Not cyclic
+function isGraphCylic(graphComponentMatrix) {
+    // Dependency -> visited, dfsVisited (2D array)
+    let visited = []; // Node visit trace
+    let dfsVisited = []; // Stack visit trace
 
-        // For cycle path tracing, we will return false here and handle the cycle detection in the dfsCycleDetectionTracePath function
-        let response = dfsCycleDetection(
-          graphComponentMatrix,
-          visited,
-          dfsVisited,
-          i,
-          j,
-        );
-        if (response === true) {
-          return [i, j]; // Return the starting point of the cycle for tracing
+    for (let i = 0; i < rows; i++) {
+        let visitedRow = [];
+        let dfsVisitedRow = [];
+        for (let j = 0; j < cols; j++) {
+            visitedRow.push(false);
+            dfsVisitedRow.push(false);
         }
-        // }
-      }
+        visited.push(visitedRow);
+        dfsVisited.push(dfsVisitedRow);
     }
-  }
-  //   return false;
-  return null; // Return null if no cycle is detected, otherwise return the starting point of the cycle
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (visited[i][j] === false) {
+                let response = dfsCycleDetection(graphComponentMatrix, i, j, visited, dfsVisited);
+                // Found cycle so return immediately, no need to explore more path
+                if (response == true) return [i, j];
+            }
+        }
+    }
+    
+    return null;
 }
 
-function dfsCycleDetection(
-  graphComponentMatrix,
-  visited,
-  dfsVisited,
-  rowID,
-  colID,
-) {
-  visited[rowID][colID] = true;
-  dfsVisited[rowID][colID] = true;
+// Start -> vis(TRUE) dfsVis(TRUE)
+// End -> dfsVis(FALSE)
+// If vis[i][j] -> already explored path, so go back no use to explore again
+// Cycle detection condition -> if (vis[i][j] == true && dfsVis[i][j] == true) -> cycle
+// Return -> True/False
+// True -> cyclic, False -> Not cyclic
+function dfsCycleDetection(graphComponentMatrix, srcr, srcc, visited, dfsVisited) {
+    visited[srcr][srcc] = true;
+    dfsVisited[srcr][srcc] = true;
 
-  let children = graphComponentMatrix[rowID][colID];
-  for (let i = 0; i < children.length; i++) {
-    let [childRow, childCol] = children[i];
-    if (!visited[childRow][childCol]) {
-      //   if (
-      //     dfsCycleDetection(
-      //       graphComponentMatrix,
-      //       visited,
-      //       dfsVisited,
-      //       childRow,
-      //       childCol,
-      //     )
-      //   ) {
-      //     return true;
-      //   }
-      let response = dfsCycleDetection(
-        graphComponentMatrix,
-        visited,
-        dfsVisited,
-        childRow,
-        childCol,
-      );
-      if (response) {
-        return true; // Return true if a cycle is detected in the recursive call
-      }
-    } else if (dfsVisited[childRow][childCol]) {
-      return true;
+    // A1 -> [ [0, 1], [1, 0], [5, 10], .....  ]
+    for (let children = 0; children < graphComponentMatrix[srcr][srcc].length; children++) {
+        let [nbrr, nbrc] = graphComponentMatrix[srcr][srcc][children];
+        if (visited[nbrr][nbrc] === false) {
+            let response = dfsCycleDetection(graphComponentMatrix, nbrr, nbrc, visited, dfsVisited);
+            if (response === true) return true; // Found cycle so return immediately, no need to explore more path
+        }
+        else if (visited[nbrr][nbrc] === true && dfsVisited[nbrr][nbrc] === true) {
+            // Found cycle so return immediately, no need to explore more path
+            return true;
+        }
     }
-  }
 
-  dfsVisited[rowID][colID] = false;
-  return false;
+    dfsVisited[srcr][srcc] = false;
+    return false;
 }
